@@ -8,17 +8,29 @@ import (
 
 	"github.com/samarthverma/poof/internal/animation"
 	"github.com/samarthverma/poof/internal/characters/alien"
+	"github.com/samarthverma/poof/internal/characters/dino"
 	"github.com/samarthverma/poof/internal/characters/f1"
+	"github.com/samarthverma/poof/internal/characters/fireworks"
+	"github.com/samarthverma/poof/internal/characters/helicopter"
+	"github.com/samarthverma/poof/internal/characters/rocket"
+	"github.com/samarthverma/poof/internal/characters/shark"
 	"github.com/samarthverma/poof/internal/characters/surf"
+	"github.com/samarthverma/poof/internal/characters/train"
 )
 
 // Builder produces a fresh Scene each call.
 type Builder func() animation.Scene
 
 var registry = map[string]Builder{
-	"alien": alien.Build,
-	"surf":  surf.Build,
-	"f1":    f1.Build,
+	"alien":      alien.Build,
+	"surf":       surf.Build,
+	"f1":         f1.Build,
+	"rocket":     rocket.Build,
+	"dino":       dino.Build,
+	"fireworks":  fireworks.Build,
+	"train":      train.Build,
+	"helicopter": helicopter.Build,
+	"shark":      shark.Build,
 }
 
 // Names returns the available character names, sorted.

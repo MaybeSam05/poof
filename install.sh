@@ -55,7 +55,7 @@ read -r -d '' BLOCK <<'EOF' || true
 # >>> poof >>>
 export PATH="${HOME}/.local/bin:${PATH}"
 # poof plays a short animation on top of the screen, then runs the real clear.
-poof_clear() { command poof "$@"; command clear; }
+poof_clear() { command poof play; command clear; }
 clear() { poof_clear; }
 cls() { poof_clear; }
 # Animate on the Ctrl+L clear-screen shortcut too.

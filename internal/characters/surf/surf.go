@@ -9,9 +9,9 @@ import (
 )
 
 const (
-	w     = 112
-	h     = 30
-	baseY = 24 // resting ocean surface
+	w     = 92
+	h     = 24
+	baseY = 20 // resting ocean surface
 )
 
 var (
@@ -35,20 +35,17 @@ var surferPalette = []color.RGBA{
 // A surfer in a low carving crouch, facing left (the direction of travel):
 // front arm reaching forward, back arm out for balance, knees bent on the board.
 var surfer = renderer.ParseSprite(surferPalette, []string{
-	"       11    ",
-	"      1221   ",
-	"      2222   ",
-	"       22    ",
-	"    44322    ",
-	"  2243332    ",
-	"    433332   ",
-	"    433332   ",
-	"    33333    ",
-	"    33 33    ",
-	"   33   33   ",
-	"  33     3   ",
-	" 2       3   ",
-	"5666666655   ",
+	"     11   ",
+	"    1221  ",
+	"    222   ",
+	"  4432    ",
+	" 2 4332   ",
+	"   4332   ",
+	"   333    ",
+	"  33 33   ",
+	" 33   3   ",
+	"2     3   ",
+	"56666655  ",
 })
 
 func abs(v int) int {
@@ -121,24 +118,24 @@ func Build() animation.Scene {
 		frames = append(frames, animation.Frame{Grid: c.Snapshot(), DurationMs: ms})
 	}
 	rideSurfer := func(peakX, amp int) {
-		sx := peakX - 15 // on the open face, ahead of the curl
-		boardY := surfaceY(sx+6, peakX, amp)
-		c.Blit(surfer, sx, boardY-13)
+		sx := peakX - 12 // on the open face, ahead of the curl
+		boardY := surfaceY(sx+5, peakX, amp)
+		c.Blit(surfer, sx, boardY-10)
 	}
 
-	const amp = 15
+	const amp = 11
 
 	// Phase 1: swell builds in from the right.
 	for i := 0; i <= 6; i++ {
 		c.Clear()
-		drawWave(c, 96, lerp(2, amp, i, 6))
+		drawWave(c, 80, lerp(2, amp, i, 6))
 		add(38)
 	}
 	// Phase 2: the swell rolls left, surfer carving the face.
 	steps := 42
 	for i := 0; i <= steps; i++ {
 		c.Clear()
-		px := lerp(96, 26, i, steps)
+		px := lerp(80, 22, i, steps)
 		drawWave(c, px, amp)
 		rideSurfer(px, amp)
 		add(30)
@@ -146,7 +143,7 @@ func Build() animation.Scene {
 	// Phase 3: the wave breaks — foam spreads across the surface.
 	for i := 0; i <= 6; i++ {
 		c.Clear()
-		drawWave(c, 20, lerp(amp, 0, i, 6))
+		drawWave(c, 18, lerp(amp, 0, i, 6))
 		c.Rect(0, baseY-2, lerp(0, w, i, 6), 3, foam)
 		add(40)
 	}
