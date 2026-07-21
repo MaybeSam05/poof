@@ -42,11 +42,11 @@ alias. To opt a trigger out, just delete its line from the `# >>> poof >>>` bloc
 
 ## Characters
 
-| name    | scene                                                    |
-| ------- | -------------------------------------------------------- |
-| `alien` | a sleek UFO cruises in, pulses a tractor beam, and zips off |
-| `surf`  | a surfer rides a swell that rolls in and breaks into foam |
-| `f1`    | a Formula 1 car sweeps across trailing motion streaks    |
+| name    | scene                                                       |
+| ------- | ----------------------------------------------------------- |
+| `alien` | a metallic UFO cruises in, pulses a green tractor beam, zips off |
+| `surf`  | a surfer carves a curling wave that rolls in and breaks into foam |
+| `f1`    | a papaya-and-blue Formula 1 car sweeps across the screen    |
 
 The animations are minimalist, rendered as fine pixels (Unicode quadrant blocks)
 and rest in the lower portion of the terminal. By default a random one plays.
