@@ -13,7 +13,7 @@
 
   <p><strong>Requires macOS or Linux</strong></p>
 
-  <video src="assets/poof_video.mp4" width="720" controls></video>
+  <img src="assets/poof_video.gif" alt="Poof demo" width="720">
 </div>
 
 ## One-line Install
