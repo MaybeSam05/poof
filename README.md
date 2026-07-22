@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/poof_logo.png" alt="Poof logo" width="236">
+  <img src="assets/poof_logo_new.png" alt="Poof logo" width="236">
 
   <h1>Poof</h1>
 
