@@ -29,12 +29,14 @@ clear           play an animation, then clear   (also works: cls, or Ctrl+L)
 
 poof car        always play the car             poof surf, poof alien, poof rocket,
 poof car 0.5    ...at half speed (2 = faster)    dino, fireworks, train, helicopter, shark
+poof random     pick one at random each time      poof rotate cycles through all of them
 poof disable    turn it off                      poof enable turns it back on
 poof preview    watch the current one now
 poof status     show your settings
 ```
 
-By default a random one plays. Settings are remembered in `~/.config/poof/config`.
+By default a random one plays. Use `poof rotate` to cycle through every animation in order.
+Settings are remembered in `~/.config/poof/config`.
 
 ## Uninstall
 

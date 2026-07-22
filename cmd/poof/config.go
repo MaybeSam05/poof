@@ -12,8 +12,9 @@ import (
 // config holds the persisted user preferences that drive the clear hook.
 type config struct {
 	Enabled   bool
-	Character string // "random" or a character name
+	Character string // "random", "rotate", or a character name
 	Speed     float64
+	CycleIdx  int
 }
 
 func defaultConfig() config {
@@ -55,6 +56,10 @@ func loadConfig() config {
 			if s, err := strconv.ParseFloat(v, 64); err == nil && s > 0 {
 				cfg.Speed = s
 			}
+		case "cycle_index":
+			if i, err := strconv.Atoi(v); err == nil && i >= 0 {
+				cfg.CycleIdx = i
+			}
 		}
 	}
 	return cfg
@@ -65,8 +70,8 @@ func saveConfig(cfg config) error {
 	if err := os.MkdirAll(filepath.Dir(p), 0o755); err != nil {
 		return err
 	}
-	content := fmt.Sprintf("enabled=%t\ncharacter=%s\nspeed=%s\n",
-		cfg.Enabled, cfg.Character, strconv.FormatFloat(cfg.Speed, 'g', -1, 64))
+	content := fmt.Sprintf("enabled=%t\ncharacter=%s\nspeed=%s\ncycle_index=%d\n",
+		cfg.Enabled, cfg.Character, strconv.FormatFloat(cfg.Speed, 'g', -1, 64), cfg.CycleIdx)
 	return os.WriteFile(p, []byte(content), 0o644)
 }
 
@@ -145,6 +150,8 @@ func resolveChar(s string) (string, bool) {
 		return "shark", true
 	case "random", "rand", "any", "surprise":
 		return "random", true
+	case "rotate", "rotating", "cycle", "sequence", "sequential":
+		return "rotate", true
 	}
 	return "", false
 }

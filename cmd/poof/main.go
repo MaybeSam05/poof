@@ -3,7 +3,7 @@
 //
 // Friendly commands (all persist to the config file):
 //
-//	poof car          set the default character (car|surf|alien|random)
+//	poof car          set the default character (car|surf|alien|random|rotate)
 //	poof car 0.5      set character and speed
 //	poof 0.5          set just the speed
 //	poof disable      stop animating on clear (poof enable to undo)
@@ -36,7 +36,12 @@ func main() {
 		if !cfg.Enabled || !renderer.IsTTY() {
 			return
 		}
-		play(cfg.Character, cfg.Speed, false)
+		ch := cfg.Character
+		if isRotate(ch) {
+			ch, cfg.CycleIdx = nextCycleCharacter(cfg.CycleIdx)
+			persist(cfg)
+		}
+		play(ch, cfg.Speed, false)
 		return
 	}
 
@@ -83,12 +88,18 @@ func main() {
 				sp = s
 			}
 		}
+		if isRotate(ch) {
+			ch, _ = nextCycleCharacter(cfg.CycleIdx)
+		}
 		play(ch, sp, true)
 	default:
 		// A character alias and/or a speed number, in any order.
 		changed := false
 		for _, a := range args {
 			if c, ok := resolveChar(a); ok {
+				if cfg.Character != c {
+					cfg.CycleIdx = 0
+				}
 				cfg.Character = c
 				changed = true
 			} else if s, err := strconv.ParseFloat(a, 64); err == nil && s > 0 {
@@ -107,13 +118,26 @@ func main() {
 	}
 }
 
-// play builds and plays the given character (or a random one).
+// play builds and plays the given character, or a random one for random/unknown.
 func play(character string, speed float64, preview bool) {
 	scene, ok := characters.Get(character)
-	if character == "" || character == "random" || !ok {
+	if character == "" || character == "random" || isRotate(character) || !ok {
 		scene = characters.Random()
 	}
 	animation.Play(scene, animation.Options{Speed: speed, Preview: preview})
+}
+
+func isRotate(character string) bool {
+	return character == "rotate" || character == "cycle"
+}
+
+func nextCycleCharacter(index int) (string, int) {
+	names := characters.Names()
+	if len(names) == 0 {
+		return "random", 0
+	}
+	name := names[index%len(names)]
+	return name, (index + 1) % len(names)
 }
 
 // runFlags preserves the original --flag interface.
@@ -141,10 +165,17 @@ func runFlags(cfg config) {
 			}
 		}
 		if *preview {
+			if isRotate(ch) {
+				ch, _ = nextCycleCharacter(cfg.CycleIdx)
+			}
 			play(ch, *speed, true)
 			return
 		}
 		if cfg.Enabled && renderer.IsTTY() {
+			if isRotate(ch) {
+				ch, cfg.CycleIdx = nextCycleCharacter(cfg.CycleIdx)
+				persist(cfg)
+			}
 			play(ch, *speed, false)
 		}
 	}
@@ -171,7 +202,7 @@ func printList() {
 		fmt.Println("  " + n)
 	}
 	fmt.Println("Aliases: car=f1, wave=surf, ufo=alien, launch=rocket, trex=dino,")
-	fmt.Println("         boom=fireworks, choo=train, heli=helicopter, jaws=shark, random")
+	fmt.Println("         boom=fireworks, choo=train, heli=helicopter, jaws=shark, random, rotate")
 }
 
 func printHelp() {
@@ -179,7 +210,8 @@ func printHelp() {
 
 Usage:
   poof car            set the default character (car | surf | alien | rocket |
-                      dino | fireworks | train | helicopter | shark | random)
+                      dino | fireworks | train | helicopter | shark | random |
+                      rotate)
   poof car 0.5        set character and speed (0.5 = half speed, 2 = double)
   poof 0.5            set just the speed
   poof disable        stop animating on clear   (poof enable turns it back on)
@@ -189,7 +221,7 @@ Usage:
   poof uninstall      remove poof completely
   poof version
 
-Characters: car, surf, alien, rocket, dino, fireworks, train, helicopter, shark, random
+Characters: car, surf, alien, rocket, dino, fireworks, train, helicopter, shark, random, rotate
 `)
 }
 
