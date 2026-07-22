@@ -3,8 +3,7 @@
 # animation first. Usage: curl -fsSL https://raw.githubusercontent.com/OWNER/poof/main/install.sh | bash
 set -euo pipefail
 
-# Change this to your GitHub "owner/repo" once published.
-REPO="${POOF_REPO:-samarthverma/poof}"
+REPO="${POOF_REPO:-MaybeSam05/poof}"
 BIN_DIR="${HOME}/.local/bin"
 BIN="${BIN_DIR}/poof"
 

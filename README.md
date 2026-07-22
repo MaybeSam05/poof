@@ -5,7 +5,7 @@ A little pixel-art animation plays in your terminal every time you clear the scr
 ## One-line Install
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/samarthverma/poof/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/MaybeSam05/poof/main/install.sh | bash
 ```
 
 Then restart your terminal (or run `source ~/.bashrc`). That's it — type `clear` and enjoy.
@@ -37,7 +37,7 @@ Build from source
 Requires [Go](https://go.dev/dl/) 1.22+.
 
 ```sh
-git clone https://github.com/samarthverma/poof && cd poof
+git clone https://github.com/MaybeSam05/poof && cd poof
 go build -o poof ./cmd/poof
 ./poof preview          # try it
 ```
