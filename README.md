@@ -1,6 +1,20 @@
-# poof
+<div align="center">
+  <img src="assets/poof_logo.png" alt="Poof logo" width="236">
 
-A little pixel-art animation plays in your terminal every time you clear the screen.
+  <h1>Poof</h1>
+
+  <hr>
+
+  <p>
+    A little pixel-art animation plays in your terminal every time you clear the screen.
+  </p>
+
+  <p>
+    <a href="#one-line-install"><strong>⬇️ Install Poof</strong></a>
+  </p>
+
+  <p><strong>Requires macOS or Linux</strong></p>
+</div>
 
 ## One-line Install
 
@@ -8,7 +22,7 @@ A little pixel-art animation plays in your terminal every time you clear the scr
 curl -fsSL https://raw.githubusercontent.com/MaybeSam05/poof/main/install.sh | bash
 ```
 
-Then restart your terminal (or run `source ~/.bashrc`). That's it — type `clear` and enjoy.
+Then restart your terminal (or run `source ~/.bashrc`). Type `clear` and enjoy.
 
 ## Use it
 
