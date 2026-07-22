@@ -38,7 +38,7 @@ func main() {
 		}
 		ch := cfg.Character
 		if isRotate(ch) {
-			ch, cfg.CycleIdx = nextCycleCharacter(cfg.CycleIdx)
+			ch = advanceRotate(&cfg)
 			persist(cfg)
 		}
 		play(ch, cfg.Speed, false)
@@ -89,7 +89,8 @@ func main() {
 			}
 		}
 		if isRotate(ch) {
-			ch, _ = nextCycleCharacter(cfg.CycleIdx)
+			ch = advanceRotate(&cfg)
+			persist(cfg)
 		}
 		play(ch, sp, true)
 	default:
@@ -98,7 +99,7 @@ func main() {
 		for _, a := range args {
 			if c, ok := resolveChar(a); ok {
 				if cfg.Character != c {
-					cfg.CycleIdx = 0
+					cfg.RotateIdx = 0
 				}
 				cfg.Character = c
 				changed = true
@@ -131,7 +132,13 @@ func isRotate(character string) bool {
 	return character == "rotate" || character == "cycle"
 }
 
-func nextCycleCharacter(index int) (string, int) {
+func advanceRotate(cfg *config) string {
+	name, next := nextRotateCharacter(cfg.RotateIdx)
+	cfg.RotateIdx = next
+	return name
+}
+
+func nextRotateCharacter(index int) (string, int) {
 	names := characters.Names()
 	if len(names) == 0 {
 		return "random", 0
@@ -166,14 +173,15 @@ func runFlags(cfg config) {
 		}
 		if *preview {
 			if isRotate(ch) {
-				ch, _ = nextCycleCharacter(cfg.CycleIdx)
+				ch = advanceRotate(&cfg)
+				persist(cfg)
 			}
 			play(ch, *speed, true)
 			return
 		}
 		if cfg.Enabled && renderer.IsTTY() {
 			if isRotate(ch) {
-				ch, cfg.CycleIdx = nextCycleCharacter(cfg.CycleIdx)
+				ch = advanceRotate(&cfg)
 				persist(cfg)
 			}
 			play(ch, *speed, false)
