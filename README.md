@@ -3,8 +3,6 @@
 
   <h1>Poof</h1>
 
-  <hr>
-
   <p>
     A little pixel-art animation plays in your terminal every time you clear the screen.
   </p>
